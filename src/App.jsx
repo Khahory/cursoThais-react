@@ -59,6 +59,10 @@ export default function App() {
     );
   }
   
+  const productosFiltrados = size
+      ? productos.filter((p) => p.skus.find((s) => s.size === parseInt(size)))
+      : productos;
+  
   return (
       <>
         <div className="content">
@@ -72,9 +76,10 @@ export default function App() {
                 <option value="8">8</option>
                 <option value="9">9</option>
               </select>
+              {size && <h2>Encontre {productosFiltrados.length} items</h2>}
             </section>
             <section id={'products'}>
-              {productos.map(renderProduct)}
+              {productosFiltrados.map(renderProduct)}
             </section>
           </main>
         </div>
