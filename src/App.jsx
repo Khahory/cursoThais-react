@@ -1,7 +1,8 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "./App.css";
 import Footer from "./Footer";
 import Header from "./Header";
+import {getProducts} from "./services/productService";
 
 const productos = [
   {
@@ -46,6 +47,14 @@ const productos = [
 export default function App() {
   //states
   const [size, setSize] = useState('');
+  const [producto, setProducto] = useState([]);
+  
+  //call api
+  useEffect(() => {
+    getProducts('shoes').then(res => {
+      setProducto(res);
+    })
+  }, []);
   
   const renderProduct = (p) => {
     return (
