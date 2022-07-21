@@ -57,13 +57,11 @@ export default function App() {
     const init = async () => {
       try {
         const response = await getProducts('shoes')
-        .then(res => {
-          setProducto(res);
-        })
-        .catch(error => {
-          setError(error);
-        })
-        .finally(() => setLoading(false))
+        setProducto(response);
+      } catch (e){
+        setError(e);
+      } finally {
+        setLoading(false);
       }
     }
     init();
