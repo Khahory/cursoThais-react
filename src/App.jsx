@@ -48,12 +48,17 @@ export default function App() {
   //states
   const [size, setSize] = useState('');
   const [producto, setProducto] = useState([]);
+  const [error, setError] = useState(null);
   
   //call api
   useEffect(() => {
-    getProducts('shoes').then(res => {
-      setProducto(res);
-    })
+    getProducts('shoes')
+      .then(res => {
+        setProducto(res);
+      })
+      .catch(error => {
+        setError(error);
+      });
   }, []);
   
   const renderProduct = (p) => {
@@ -71,6 +76,8 @@ export default function App() {
   const productosFiltrados = size
       ? productos.filter((p) => p.skus.find((s) => s.size === parseInt(size)))
       : productos;
+  
+  if (error) throw error;
   
   return (
       <>
