@@ -3,6 +3,7 @@ import "./App.css";
 import Footer from "./Footer";
 import Header from "./Header";
 import {getProducts} from "./services/productService";
+import Spinner from "./Spinner";
 
 const productos = [
   {
@@ -49,16 +50,23 @@ export default function App() {
   const [size, setSize] = useState('');
   const [producto, setProducto] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
   
   //call api
   useEffect(() => {
-    getProducts('shoes')
-      .then(res => {
-        setProducto(res);
-      })
-      .catch(error => {
-        setError(error);
-      });
+    const init = async () => {
+      try {
+        const response = await getProducts('shoes')
+        .then(res => {
+          setProducto(res);
+        })
+        .catch(error => {
+          setError(error);
+        })
+        .finally(() => setLoading(false))
+      }
+    }
+    init();
   }, []);
   
   const renderProduct = (p) => {
@@ -78,6 +86,7 @@ export default function App() {
       : productos;
   
   if (error) throw error;
+  if (loading) return <Spinner />
   
   return (
       <>
