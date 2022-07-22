@@ -27,6 +27,16 @@ export default function App() {
         });
     }
     
+    //cambiamos la cantidad del item, retornamos la copia de los item actual
+    //lo buscamo para saber cual es (en el carrito tenemos varios item)
+    //cuando esta identificado pues agregamos su cantidad que seleccionamos donde ns
+    //todo viene desde el hijo
+    const updateQuantity = (sku, quantity) => {
+        setCart((items) => {
+            return items.map((i) => (i.sku === sku ? {...i, quantity} : i))
+        })
+    }
+    
     return (
         <>
             <div className="content">
@@ -36,7 +46,7 @@ export default function App() {
                         <Route path={'/'} element={<h1>Welcome a esta vaina</h1>}/>
                         <Route path={'/:category'} element={<Products/>}/>
                         <Route path={'/:category/:id'} element={<Detail addToCart={addToCart}/>}/>
-                        <Route path={'/cart'} element={<Cart cart={cart} />}/>
+                        <Route path={'/cart'} element={<Cart cart={cart} updateQuantity={updateQuantity} />}/>
                     </Routes>
                 </main>
             </div>
