@@ -42,9 +42,21 @@ export default function Cart({ cart, updateQuantity }) {
     if (loading) return <Spinner />;
     if (error) throw error;
     
+    //mostrar la cantidad de items seleccionados
+    
+    const numItemsInCart =
+        cart.reduce((total, item) => (
+            total + item.quantity
+        ), 0);
+    
     return (
         <section id="cart">
-            <h1>Cart</h1>
+            <h1>
+                {numItemsInCart === 0
+                    ? 'El carrito essta vacio, vete y compra algo bonito animal'
+                    : `${numItemsInCart} Item${numItemsInCart > 1 ? 's' : ''} en mi carro he`
+                }
+            </h1>
             <ul>{cart.map(renderItem)}</ul>
         </section>
     );
