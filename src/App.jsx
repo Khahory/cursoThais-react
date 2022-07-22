@@ -20,6 +20,9 @@ export default function App() {
                 return items.map((i) =>
                     i.sku === sku ? {...i, quantity: i.quantity + 1} : i
                 );
+            } else  {
+                //return new array with the new item insertadp
+                return [...items, {id, sku, quantity: 1}]
             }
         });
     }
@@ -32,8 +35,8 @@ export default function App() {
                     <Routes>
                         <Route path={'/'} element={<h1>Welcome a esta vaina</h1>}/>
                         <Route path={'/:category'} element={<Products/>}/>
-                        <Route path={'/:category/:id'} element={<Detail/>}/>
-                        <Route path={'/cart'} element={<Cart/>}/>
+                        <Route path={'/:category/:id'} element={<Detail addToCart={addToCart}/>}/>
+                        <Route path={'/cart'} element={<Cart cart={cart} />}/>
                     </Routes>
                 </main>
             </div>
