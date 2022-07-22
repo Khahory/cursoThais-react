@@ -33,6 +33,10 @@ export default function App() {
     //todo viene desde el hijo
     const updateQuantity = (sku, quantity) => {
         setCart((items) => {
+            //en caso de que quiera eliminarlo
+            if (quantity === 0){
+                return items.filter((i) => i.sku !== sku);
+            }
             return items.map((i) => (i.sku === sku ? {...i, quantity} : i))
         })
     }
