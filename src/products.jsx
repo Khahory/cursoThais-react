@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import Spinner from "./Spinner";
 import useFetch from "./services/useFetch";
 import {useParams} from "react-router-dom";
+import PageNotFound from "./PageNotFound";
 
 export default function Products() {
     //states
@@ -29,6 +30,7 @@ export default function Products() {
     
     if (error) throw error;
     if (loading) return <Spinner />
+    if (productos.length === 0) return <PageNotFound/>
     
     return (
         <>
