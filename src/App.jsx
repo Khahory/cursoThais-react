@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "./App.css";
 import Footer from "./Footer";
 import Header from "./Header";
@@ -9,7 +9,19 @@ import Cart from "./Cart";
 
 export default function App() {
     //estados
-    const [cart, setCart] = useState([]);
+    const [cart, setCart] = useState(() => {
+        try {
+            return JSON.parse(localStorage.getItem('cart')) ?? [];
+        } catch (e) {
+            console.error('El carrito no se pudo convertir a JSON')
+            return [];
+        }
+    });
+    
+    //guardar carrito en memoria
+    useEffect(() =>
+        localStorage.setItem('cart', JSON.stringify(cart)), [cart]
+    )
     
     const addToCart = (id, sku) => {
         setCart((items) => {
