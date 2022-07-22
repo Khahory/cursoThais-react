@@ -31,7 +31,7 @@ export default function Detail() {
             </select>
             
             <p>
-                <button onClick={() => navigate('/cart')} className={'btn btn-primary'}>Add to cart</button>
+                <button disabled={!sku} onClick={() => navigate('/cart')} className={'btn btn-primary'}>Add to cart</button>
             </p>
             <img src={`/images/${product.image}`} alt={product.category} />
         </div>
