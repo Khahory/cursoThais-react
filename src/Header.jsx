@@ -1,15 +1,28 @@
 import React from "react";
+import {Link, NavLink} from "react-router-dom";
+
+const activeStyle = {
+    color: 'purple'
+}
 
 export default function Header() {
-  return (
-    <header>
-      <nav>
-        <ul>
-          <li>
-            <img alt="Carved Rock Fitness" src="/images/logo.png" />
-          </li>
-        </ul>
-      </nav>
-    </header>
-  );
+    return (
+        <header>
+            <nav>
+                <ul>
+                    <li>
+                        <Link to={'/'}>
+                            <img alt="Carved Rock Fitness" src="/images/logo.png" />
+                        </Link>
+                    </li>
+                    <li>
+                        <NavLink to={'/shoes'} activeStyle={activeStyle}>Zapatos</NavLink>
+                    </li>
+                    <li>
+                        <NavLink to={'/cart'} activeStyle={activeStyle}>Carrito</NavLink>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+    );
 }
