@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import "./App.css";
 import Footer from "./Footer";
 import Header from "./Header";
@@ -8,6 +8,21 @@ import Detail from "./Detail";
 import Cart from "./Cart";
 
 export default function App() {
+    //estados
+    const [cart, setCart] = useState([]);
+    
+    const addToCart = (id, sku) => {
+        setCart((items) => {
+            const itemInCart = items.find((i) => i.sku === sku);
+            // valida mos que tenemos algo
+            if (itemInCart){
+                // crearemos una copia nueva de los item pero con un campo cambaindo su valor
+                return items.map((i) =>
+                    i.sku === sku ? {...i, quantity: i.quantity + 1} : i
+                );
+            }
+        });
+    }
     
     return (
         <>
