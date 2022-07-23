@@ -55,7 +55,7 @@ export default function Cart({ cart, updateQuantity }) {
         <section id="cart">
             <h1>
                 {numItemsInCart === 0
-                    ? 'El carrito essta vacio, vete y compra algo bonito animal'
+                    ? 'El carrito esta vacio, vete y compra algo bonito animal'
                     : `${numItemsInCart} Item${numItemsInCart > 1 ? 's' : ''} en mi carro he`
                 }
             </h1>
