@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import {saveShippingAddress} from "./services/shippingService";
 
 const STATUS = {
-    IDLE: 'IDLE',
-    SUBMITTED: 'SUBMITTED',
-    SUBMITTING: 'SUBMITTING',
-    COMPLETE: 'COMPLETE'
-}
+    IDLE: "IDLE",
+    SUBMITTED: "SUBMITTED",
+    SUBMITTING: "SUBMITTING",
+    COMPLETED: "COMPLETED",
+};
 
 // Declaring outside component to avoid recreation on each render
 const emptyAddress = {
@@ -14,27 +14,31 @@ const emptyAddress = {
     country: "",
 };
 
-export default function Checkout({ cart, empyCart }) {
+export default function Checkout({ cart, emptyCart }) {
     const [address, setAddress] = useState(emptyAddress);
     const [status, setStatus] = useState(STATUS.IDLE);
     const [saveError, setSaveError] = useState(null);
+    const [touched, setTouched] = useState({});
     
-    //drived state
+    // Derived state
     const errors = getErrors(address);
     const isValid = Object.keys(errors).length === 0;
     
     function handleChange(e) {
-        e.persist();
-        setAddress((curAdress) => {
+        e.persist(); // persist the event
+        setAddress((curAddress) => {
             return {
-                ...curAdress,
-                [e.target.id]: e.target.value
-            }
-        })
+                ...curAddress,
+                [e.target.id]: e.target.value,
+            };
+        });
     }
     
     function handleBlur(event) {
-        // TODO
+        event.persist();
+        setTouched((cur) => {
+            return { ...cur, [event.target.id]: true };
+        });
     }
     
     async function handleSubmit(event) {
@@ -43,17 +47,17 @@ export default function Checkout({ cart, empyCart }) {
         if (isValid){
             try {
                 await saveShippingAddress(address);
-                empyCart();
-                setStatus(STATUS.COMPLETE);
+                emptyCart();
+                setStatus(STATUS.COMPLETED);
             } catch (e) {
                 setSaveError(e);
             }
         } else {
-            setStatus(STATUS.SUBMITTED)
+            setStatus(STATUS.SUBMITTED);
         }
     }
     
-    function getErrors(){
+    function getErrors(address){
         const result = {};
         if (!address.city) result.city = 'La ciudad es requerida'
         if (!address.country) result.country = 'El pais es requerido'
@@ -61,8 +65,8 @@ export default function Checkout({ cart, empyCart }) {
     }
     
     if (saveError) throw saveError;
-    if (status === STATUS.COMPLETE){
-        return <h1>Gracias por su compra</h1>
+    if (status === STATUS.COMPLETED) {
+        return <h1>Thanks for shopping!</h1>;
     }
     
     return (
@@ -89,6 +93,9 @@ export default function Checkout({ cart, empyCart }) {
                         onBlur={handleBlur}
                         onChange={handleChange}
                     />
+                    <p role={'alert'}>
+                        {(touched.city || status === STATUS.SUBMITTED) && errors.city}
+                    </p>
                 </div>
                 
                 <div>
@@ -106,6 +113,9 @@ export default function Checkout({ cart, empyCart }) {
                         <option value="United Kingdom">United Kingdom</option>
                         <option value="USA">USA</option>
                     </select>
+                    <p role={'alert'}>
+                        {(touched.country || status === STATUS.SUBMITTED) && errors.country}
+                    </p>
                 </div>
                 
                 <div>
