@@ -34,5 +34,10 @@ export function CartProvider(props){
 //hock para poder consumir el cart context
 export function useCart() {
     const context = useContext(CartContext);
+    if (!context) {
+        throw new Error(
+            "useCart debe usarse dentro de un CartProvider. Envuelva un componente padre en <CartProvider> para corregir este error."
+        );
+    }
     return context
 }
